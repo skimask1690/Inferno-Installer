@@ -139,6 +139,7 @@ echo "Starting iPhone emulator..."
   -dtb iPhone11_8_iPhone12_1_14.0_18A5351d_Restore/Firmware/all_flash/DeviceTree.n104ap.im4p \
   -initrd iPhone11_8_iPhone12_1_14.0_18A5351d_Restore/038-44135-124.dmg \
   -append "tlto_us=-1 mtxspin=-1 agm-genuine=1 agm-authentic=1 agm-trusted=1 serial=3 wdt=-1 -vm_compressor_wk_sw" \
+  -display sdl,show-cursor=on \
   -smp 7 -m 4G -serial mon:stdio \
   -drive file=sep_nvram,if=pflash,format=raw \
   -drive file=sep_ssc,if=pflash,format=raw \
