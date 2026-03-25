@@ -2,13 +2,13 @@
 
 # ===== URL VARIABLES =====
 NETTLE_URL="https://ftp.gnu.org/gnu/nettle/nettle-3.10.1.tar.gz"
-QEMU_GIT_URL="https://github.com/ChefKissInc/QEMUAppleSilicon"
+QEMU_GIT_URL="https://github.com/ChefKissInc/Inferno"
 IMG4LIB_URL="https://github.com/xerub/img4lib/releases/download/1.0/img4lib-2020-10-27.tar.gz"
 IPSW_14_BETA5_URL="https://updates.cdn-apple.com/2020SummerSeed/fullrestores/001-35886/5FE9BE2E-17F8-41C8-96BB-B76E2B225888/iPhone11,8,iPhone12,1_14.0_18A5351d_Restore.ipsw"
 IPSW_14_7_1_URL="https://updates.cdn-apple.com/2021SummerFCS/fullrestores/071-73868/321919C4-1F21-4387-936D-B72374C39DD6/iPhone11,8,iPhone12,1_14.7.1_18G82_Restore.ipsw"
-TICKET_URL="https://raw.githubusercontent.com/ChefKissInc/QEMUAppleSiliconTools/master/ticket.shsh2"
-SEPTICKET_PY_URL="https://raw.githubusercontent.com/ChefKissInc/QEMUAppleSiliconTools/master/create_septicket.py"
-APTICKET_PY_URL="https://raw.githubusercontent.com/ChefKissInc/QEMUAppleSiliconTools/master/create_apticket.py"
+TICKET_URL="https://chefkiss.dev/Extras/Inferno/ticket.shsh2"
+SEPTICKET_PY_URL="https://chefkiss.dev/Extras/Inferno/create_septicket.py"
+APTICKET_PY_URL="https://chefkiss.dev/Extras/Inferno/create_apticket.py"
 SEPROM_URL="https://securerom.fun/resources/SEPROM/AppleSEPROM-Cebu-B1"
 ARCHLINUX_ISO_URL="https://mirror.rackspace.com/archlinux/iso/latest/archlinux-x86_64.iso"
 
@@ -20,7 +20,8 @@ ARCHLINUX_ISO_URL="https://mirror.rackspace.com/archlinux/iso/latest/archlinux-x
 # Prepare the environment
 set -e
 sudo apt-get update
-sudo apt-get install -y build-essential libtool meson ninja-build pkg-config libcapstone-dev device-tree-compiler libglib2.0-dev gnutls-bin libjpeg-turbo8-dev libpng-dev libslirp-dev libssh-dev libusb-1.0-0-dev liblzo2-dev libncurses5-dev libpixman-1-dev libsnappy-dev vde2 zstd libgnutls28-dev libgmp10 libgmp3-dev lzfse liblzfse-dev libgtk-3-dev libsdl2-dev git make unzip curl python3-venv python3-pyasn1 python3-pyasn1-modules
+sudo apt-get install -y build-essential libtool meson ninja-build pkg-config libcapstone-dev device-tree-compiler libglib2.0-dev gnutls-bin libjpeg-turbo8-dev libpng-dev libslirp-dev libssh-dev libusb-1.0-0-dev liblzo2-dev libncurses5-dev libpixman-1-dev libsnappy-dev vde2 zstd libgnutls28-dev libgmp10 libgmp3-dev lzfse liblzfse-dev libgtk-3-dev libsdl2-dev git make unzip curl python3-venv python3-pyasn1 python3-pyasn1-modules python3-pip
+python3 -m pip install --user --upgrade meson --break-system-packages
 
 # Install nettle if missing
 if grep -q '3.10.1' /usr/local/lib64/pkgconfig/nettle.pc 2>/dev/null
@@ -39,24 +40,24 @@ then
   export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig
 fi
 
-# Clone or enter QEMUAppleSilicon
-if [ -d ../../QEMUAppleSilicon/build ]
+# Clone or enter Inferno
+if [ -d ../../Inferno/build ]
 then
-  cd ../../QEMUAppleSilicon/build
-elif [ -d ../QEMUAppleSilicon/build ]
+  cd ../../Inferno/build
+elif [ -d ../Inferno/build ]
 then
-  cd ../QEMUAppleSilicon/build
-elif [ -d QEMUAppleSilicon/build ]
+  cd ../Inferno/build
+elif [ -d Inferno/build ]
 then
-  cd QEMUAppleSilicon/build
-elif [ ! -d QEMUAppleSilicon ]
+  cd Inferno/build
+elif [ ! -d Inferno ]
 then
   git clone $QEMU_GIT_URL
-  cd QEMUAppleSilicon
+  cd Inferno
   git submodule update --init
   mkdir build
   cd build
-  ../configure --target-list=aarch64-softmmu,x86_64-softmmu --enable-lzfse --enable-slirp --enable-capstone --enable-curses --enable-libssh --enable-virtfs --enable-zstd --enable-nettle --enable-gnutls --enable-gtk --enable-sdl --disable-werror
+  ../configure --target-list=aarch64-softmmu,x86_64-softmmu --enable-lzfse --enable-slirp --enable-curses --enable-libssh --enable-virtfs --enable-zstd --enable-nettle --enable-gnutls --enable-gtk --enable-sdl --disable-werror --disable-qom-cast-debug --extra-cflags="-O3 -ffast-math -mtune=native" --disable-debug-info
   make -j$(nproc)
 fi
 
