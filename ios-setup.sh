@@ -21,7 +21,7 @@ ARCHLINUX_ISO_URL="https://mirror.rackspace.com/archlinux/iso/latest/archlinux-x
 set -e
 sudo apt-get update
 sudo apt-get install -y build-essential libtool meson ninja-build pkg-config libcapstone-dev device-tree-compiler libglib2.0-dev gnutls-bin libjpeg-turbo8-dev libpng-dev libslirp-dev libssh-dev libusb-1.0-0-dev liblzo2-dev libncurses-dev libpixman-1-dev libsnappy-dev vde2 zstd libgnutls28-dev libgmp10 libgmp3-dev lzfse liblzfse-dev libgtk-3-dev libsdl2-dev git make unzip curl python3-venv python3-pyasn1 python3-pyasn1-modules python3-pip
-python3 -m pip install --user --upgrade meson --break-system-packages
+python3 -m pip install --user --upgrade meson --break-system-packages --no-warn-script-location
 
 # Install nettle if missing
 if grep -q '3.10.1' /usr/local/lib64/pkgconfig/nettle.pc 2>/dev/null
