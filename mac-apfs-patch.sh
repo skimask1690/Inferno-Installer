@@ -34,6 +34,8 @@ sudo plutil -convert xml1 /Volumes/System/System/Library/xpc/launchd.plist
 services=(
   "com.apple.voicemail.vmd"
   "com.apple.CommCenter"
+  "com.apple.CommCenterMobileHelper"
+  "com.apple.CommCenterRootHelper"
   "com.apple.locationd"
 )
 
