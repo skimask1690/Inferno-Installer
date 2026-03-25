@@ -134,12 +134,9 @@ $SU_FLAG ./qemu-system-x86_64 $KVM_FLAG -m 2G -cdrom archlinux-x86_64.iso \
   -usb -device usb-ehci,id=ehci -device usb-tcp-remote,conn-type=ipv4,conn-addr=127.0.0.1,conn-port=8030,bus=ehci.0 &
 
 echo "Starting iPhone emulator..."
-./qemu-system-aarch64 -M t8030,trustcache=iPhone11_8_iPhone12_1_14.0_18A5351d_Restore/Firmware/038-44135-124.dmg.trustcache,ticket=root_ticket.der,sep-fw=sep-firmware.n104.RELEASE.new.img4,sep-rom=AppleSEPROM-Cebu-B1,kaslr-off=true,usb-conn-type=ipv4,usb-conn-addr=127.0.0.1,usb-conn-port=8030 \
-  -kernel iPhone11_8_iPhone12_1_14.0_18A5351d_Restore/kernelcache.research.iphone12b \
-  -dtb iPhone11_8_iPhone12_1_14.0_18A5351d_Restore/Firmware/all_flash/DeviceTree.n104ap.im4p \
-  -initrd iPhone11_8_iPhone12_1_14.0_18A5351d_Restore/038-44135-124.dmg \
-  -append "tlto_us=-1 mtxspin=-1 agm-genuine=1 agm-authentic=1 agm-trusted=1 serial=3 launchd_unsecure_cache=1 wdt=-1" \
-  -display gtk,zoom-to-fit=on,show-cursor=on \
+./qemu-system-aarch64 -M t8030,trustcache=./Restore/Firmware/038-44135-124.dmg.trustcache,ticket=root_ticket.der,sep-fw=sep-firmware.n104.RELEASE.new.img4,sep-rom=AppleSEPROM-Cebu-B1,kaslr-off=true,usb-conn-type=ipv4,usb-conn-addr=127.0.0.1,usb-conn-port=8030 \
+  -kernel ./Restore/kernelcache.research.iphone12b -dtb ./Restore/Firmware/all_flash/DeviceTree.n104ap.im4p \
+  -append "tlto_us=-1 mtxspin=-1 agm-genuine=1 agm-authentic=1 agm-trusted=1 serial=3 wdt=-1 -vm_compressor_wk_sw" \
   -smp 7 -m 4G -serial mon:stdio \
   -drive file=sep_nvram,if=pflash,format=raw \
   -drive file=sep_ssc,if=pflash,format=raw \
