@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # NOTE: This script must be run on macOS.
-# git and cmake are required
 
 set -e
 
@@ -10,12 +9,24 @@ set -e
     exit
 }
 
-[ ! -f QEMUAppleSilicon/build/root ] || cd QEMUAppleSilicon/build
+[ ! -f Inferno/build/root ] || cd Inferno/build
 
 [ -f root ] || {
   echo "APFS not found. Exiting..."
   exit 1
 }
+
+if ! command -v brew &> /dev/null; then
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+if ! command -v git &> /dev/null; then
+    brew install git
+fi
+
+if ! command -v cmake &> /dev/null; then
+    brew install cmake
+fi
 
 # Mount the APFS with read/write access
 hdiutil attach -imagekey diskimage-class=CRawDiskImage -blocksize 4096 -noverify -noautofsck root
