@@ -32,9 +32,11 @@ cd
 
 # Patch the Dyld Shared Cache
 [ -d InfernoFSPatcher ] || git clone https://git.chefkiss.dev/AppleHax/InfernoFSPatcher
+cd InfernoFSPatcher
 cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=YES -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 sudo build/inferno_fs_patcher /Volumes/System/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e
+cd
 
 # Disable the Problematic Launch Services
 sudo cp /Volumes/System/System/Library/xpc/launchd.plist /Volumes/System/System/Library/xpc/launchd.plist.orig
