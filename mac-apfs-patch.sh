@@ -28,6 +28,7 @@ fi
 hdiutil attach -imagekey diskimage-class=CRawDiskImage -blocksize 4096 -noverify -noautofsck root
 sudo diskutil enableownership /Volumes/System
 sudo mount -urw /Volumes/System
+cd
 
 # Patch the Dyld Shared Cache
 [ -d InfernoFSPatcher ] || git clone https://git.chefkiss.dev/AppleHax/InfernoFSPatcher
