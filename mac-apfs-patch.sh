@@ -24,7 +24,7 @@ hdiutil attach -imagekey diskimage-class=CRawDiskImage -blocksize 4096 -noverify
 sudo diskutil enableownership /Volumes/System
 sudo mount -urw /Volumes/System
 
-sudo ./inferno_fs_patcher /Volumes/System/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e
+sudo ./inferno_fs_patcher /Volumes/System/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e --unredact-logs
 
 # Disable the Problematic Launch Services
 sudo cp /Volumes/System/System/Library/xpc/launchd.plist /Volumes/System/System/Library/xpc/launchd.plist.orig
