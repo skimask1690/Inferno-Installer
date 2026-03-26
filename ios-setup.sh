@@ -20,7 +20,7 @@ ARCHLINUX_ISO_URL="https://mirror.rackspace.com/archlinux/iso/latest/archlinux-x
 # Prepare the environment
 set -e
 sudo apt-get update
-sudo apt-get install -y build-essential libtool meson ninja-build pkg-config libcapstone-dev device-tree-compiler libglib2.0-dev gnutls-bin libjpeg-turbo8-dev libpng-dev libslirp-dev libssh-dev libusb-1.0-0-dev liblzo2-dev libncurses-dev libpixman-1-dev libsnappy-dev vde2 zstd libgnutls28-dev libgmp10 libgmp3-dev lzfse liblzfse-dev libgtk-3-dev libsdl2-dev git make unzip curl python3-venv python3-pyasn1 python3-pyasn1-modules python3-pip
+sudo apt-get install -y build-essential libtool meson ninja-build pkg-config libcapstone-dev device-tree-compiler libglib2.0-dev gnutls-bin libjpeg-turbo8-dev libpng-dev libslirp-dev libssh-dev libusb-1.0-0-dev liblzo2-dev libncurses-dev libpixman-1-dev libsnappy-dev vde2 zstd libgnutls28-dev libgmp10 libgmp3-dev lzfse liblzfse-dev libgtk-3-dev libsdl2-dev git make unzip curl python3-venv python3-pyasn1 python3-pyasn1-modules python3-pip cmake
 python3 -m pip install --user --upgrade meson --break-system-packages --no-warn-script-location
 
 # Install nettle if missing
@@ -84,6 +84,14 @@ fi
   mv Firmware/all_flash/sep-firmware.n104.RELEASE.im4p .
   rm -rf iPhone11,8,iPhone12,1_14.7.1_18G82_Restore.ipsw Firmware
 }
+
+[ -d InfernoFSPatcher ] || git clone https://git.chefkiss.dev/AppleHax/InfernoFSPatcher
+cd InfernoFSPatcher
+cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=YES -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON
+cmake --build build
+cd ..
+mv build/inferno_fs_patcher .
+rm -rf InfernoFSPatcher
 
 # Download SHSH blob
 [ -f ticket.shsh2 ] || wget $TICKET_URL
