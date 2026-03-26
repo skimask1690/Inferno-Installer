@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # NOTE: This script must be run on macOS.
-# git and cmake are required
 
 set -e
 
