@@ -16,16 +16,14 @@ set -e
   exit 1
 }
 
-# Trigger installation (this will open the GUI if not installed)
-xcode-select --install 2>/dev/null || true
+if ! xcode-select -p &>/dev/null; then
+    xcode-select --install 2>/dev/null || true
 
-# Wait until the tools are installed
-echo "Waiting for Xcode Command Line Tools to be installed..."
-while ! xcode-select -p &>/dev/null; do
-    sleep 5
-done
-
-echo "Xcode Command Line Tools installed. Proceeding..."
+    # Wait until installation completes
+    while ! xcode-select -p &>/dev/null; do
+        sleep 5
+    done
+fi
 
 # Mount the APFS with read/write access
 hdiutil attach -imagekey diskimage-class=CRawDiskImage -blocksize 4096 -noverify -noautofsck root
