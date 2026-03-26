@@ -85,14 +85,6 @@ fi
   rm -rf iPhone11,8,iPhone12,1_14.7.1_18G82_Restore.ipsw Firmware
 }
 
-[ -d InfernoFSPatcher ] || git clone https://git.chefkiss.dev/AppleHax/InfernoFSPatcher
-cd InfernoFSPatcher
-cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=YES -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON
-cmake --build build
-mv build/inferno_fs_patcher ..
-cd ..
-rm -rf InfernoFSPatcher
-
 # Download SHSH blob
 [ -f ticket.shsh2 ] || wget $TICKET_URL
 
