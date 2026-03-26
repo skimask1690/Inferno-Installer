@@ -9,22 +9,31 @@ set -e
     exit
 }
 
+[ ! -f Inferno/build/root ] || cd Inferno/build
+
 [ -f root ] || {
   echo "APFS not found. Exiting..."
   exit 1
 }
 
-[ -f inferno_fs_patcher ] || {
-  echo "inferno_fs_patcher not found. Exiting..."
-  exit 1
-}
+if ! command -v brew &> /dev/null; then
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+if ! command -v cmake &> /dev/null; then
+    brew install cmake
+fi
 
 # Mount the APFS with read/write access
 hdiutil attach -imagekey diskimage-class=CRawDiskImage -blocksize 4096 -noverify -noautofsck root
 sudo diskutil enableownership /Volumes/System
 sudo mount -urw /Volumes/System
 
-sudo ./inferno_fs_patcher /Volumes/System/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e --unredact-logs
+# Patch the Dyld Shared Cache
+[ -d InfernoFSPatcher ] || git clone https://git.chefkiss.dev/AppleHax/InfernoFSPatcher
+cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=YES -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+sudo build/inferno_fs_patcher /Volumes/System/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64e
 
 # Disable the Problematic Launch Services
 sudo cp /Volumes/System/System/Library/xpc/launchd.plist /Volumes/System/System/Library/xpc/launchd.plist.orig
