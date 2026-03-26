@@ -24,6 +24,10 @@ if ! command -v cmake &> /dev/null; then
     brew install cmake
 fi
 
+if ! command -v gcc &> /dev/null; then
+    brew install gcc
+fi
+
 # Mount the APFS with read/write access
 hdiutil attach -imagekey diskimage-class=CRawDiskImage -blocksize 4096 -noverify -noautofsck root
 sudo diskutil enableownership /Volumes/System
