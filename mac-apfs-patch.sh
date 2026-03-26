@@ -16,17 +16,7 @@ set -e
   exit 1
 }
 
-if ! command -v brew &> /dev/null; then
-    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
-
-if ! command -v git &> /dev/null; then
-    brew install git
-fi
-
-if ! command -v cmake &> /dev/null; then
-    brew install cmake
-fi
+xcode-select --install
 
 # Mount the APFS with read/write access
 hdiutil attach -imagekey diskimage-class=CRawDiskImage -blocksize 4096 -noverify -noautofsck root
