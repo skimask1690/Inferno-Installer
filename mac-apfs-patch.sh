@@ -43,7 +43,7 @@ if ! command -v cmake >/dev/null; then
 fi
 
 # Patch the Dyld Shared Cache
-git clone https://git.chefkiss.dev/AppleHax/InfernoFSPatcher
+[ -d InfernoFSPatcher ] || git clone https://git.chefkiss.dev/AppleHax/InfernoFSPatcher
 cd InfernoFSPatcher
 cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=YES -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON
 cmake --build build
